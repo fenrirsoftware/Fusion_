@@ -28,10 +28,10 @@ namespace Fusion_
                                                                  ";
 
                 Console.WriteLine(title);
-
+                
                 Console.ForegroundColor = ConsoleColor.White;
             
-                Console.Write("\nXML dosyalarının yer aldığı dizinini yazınız (örnek C:/dosya/):");
+                Console.Write("\nXML dosyalarının yer aldığı dizinini yazınız (örnek D:/dosya/):");
                 string yol = Console.ReadLine()+"\\";        //kullanıcının girdiği yolun sonuna \ ekliyoruz
                 
                 
@@ -46,28 +46,21 @@ namespace Fusion_
                     Environment.Exit(0);  //program kapatma
 
 
-                }
 
+                }
                 var c = 1;
                 var path = yol;
+
                 Directory.GetFiles(path, "*.xml").ToList().ForEach(p =>
                 {
-                    File.Copy(p, Path.Combine(path+"1"+ "("+(c++)+")" + ".xml"), true);
-
-
-
-                    GC.Collect();  //işlem bitse bile GC(garbage collector) işlemi hafızada tuttuğu için diğer işleme geçemiyoruz fakat bunu yaparsak işlemi GC üzerinden atmış oluruz
-                    GC.WaitForPendingFinalizers();
-
+                    File.Move(p, Path.Combine(path+"1"+ "("+(c++)+")" + ".xml"), true);
+                    GC.Collect();  //işlem bitse bile GC(garbage collector) işlemi hafızada tuttuğu için diğer işleme geçemiyoruz fakat bunu yaparsak işlemi GC üzerinden atmış oluruz (durumun bununla alakası yokmuş)
+                    GC.WaitForPendingFinalizers(); //olayın garbage collector ile hiç bir alakası yok.
                 });
-        
                 XmlTextReader reader = new XmlTextReader(yol + "1(1).xml");  //xml okuyucu tanımlama ve xml dosyasını ekleme
-
                 DataSet datset = new DataSet();  //dataset yapısı oluşturma
                 datset.ReadXml(reader);    //xml okutuyorrum
-
                 int i = 2;
-
                  while(i <= num)
                 {
                     object[] xmltutucu = new object[] { yol, "1(", Convert.ToInt32(i), ").xml" }; 
@@ -76,7 +69,6 @@ namespace Fusion_
                     dataSet.ReadXml(reader2);
                     datset.Merge(dataSet);  //Belirtilen DataSet ve şemasını geçerli DataSetile birleştirir.
                     i++;
-
                 }
                 datset.WriteXml(yol + "Merge.xml");
                 Console.WriteLine("işlem tamam!");
@@ -87,7 +79,5 @@ namespace Fusion_
             }
             Console.Read();
         }
-    
-
     }
 }
