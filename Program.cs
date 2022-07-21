@@ -31,7 +31,7 @@ namespace Fusion_
 
                 Console.ForegroundColor = ConsoleColor.White;
 
-                Console.Write("\nXML dosyalarının yer aldığı dizinini yazınız (örnek D:/dosya/):");
+                Console.Write("\nXML dosyalarının yer aldığı dizini yazınız (örnek D:/dosya/):");
                 string yol = Console.ReadLine() + "\\";        //kullanıcının girdiği yolun sonuna \ ekliyoruz \\ tarzı bir görünümden hoşlanmıyorsanız başına @ koyup tek \ de atabilirsiniz.
 
 
